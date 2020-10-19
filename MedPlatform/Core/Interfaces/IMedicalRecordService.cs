@@ -11,5 +11,6 @@ namespace Core.Interfaces
         void Update(MedicalRecord medicalRecord);
         void DeleteById(int id);
         void Delete(MedicalRecord medicalRecord);
+        void AddMedicalRecord(int patientId, MedicalRecord medicalRecord);
     }
 }

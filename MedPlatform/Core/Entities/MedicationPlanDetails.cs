@@ -12,5 +12,7 @@ namespace Core.Entities
         public string IntakeInterval { get; set; }
         public Medication Medication { get; set; }
         public int MedicationId { get; set; }
+        public MedicationPlan MedicationPlan { get; set; }
+        public int MedicationPlanId { get; set; }
     }
 }

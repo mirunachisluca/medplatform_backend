@@ -28,7 +28,7 @@ namespace Infrastructure.Services
 
         public Doctor GetById(int id)
         {
-            return _unitOfWork.DoctorRepository.Get(doctor => doctor.DoctorId==id, null, includeProperties: "PatientsList,PatientsList.MedicalRecordList,PatientsList.MedicationPlans,PatientsList.MedicationPlans.MedicationList").FirstOrDefault();
+            return _unitOfWork.DoctorRepository.Get(doctor => doctor.DoctorId==id, null, includeProperties: "PatientsList,PatientsList.MedicalRecordList,PatientsList.MedicationPlans,PatientsList.MedicationPlans.MedicationList,User").FirstOrDefault();
         }
 
         public IEnumerable<Patient> GetPatientsList(int id)
@@ -45,7 +45,7 @@ namespace Infrastructure.Services
 
         public IEnumerable<Doctor> ListDoctors()
         {
-            return _unitOfWork.DoctorRepository.Get(includeProperties:"PatientsList,PatientsList.MedicalRecordList,PatientsList.MedicationPlans,PatientsList.MedicationPlans.MedicationList");
+            return _unitOfWork.DoctorRepository.Get(includeProperties:"PatientsList,PatientsList.MedicalRecordList,PatientsList.MedicationPlans,PatientsList.MedicationPlans.MedicationList,User");
             
         }
 
@@ -54,5 +54,11 @@ namespace Infrastructure.Services
             _unitOfWork.DoctorRepository.Update(doctor);
             _unitOfWork.Save();
         }
+
+        //public void AddPatientToDoctor(int doctorId, Patient patient)
+        //{
+        //    var doctor = GetById(doctorId);
+        //    doctor.PatientsList.Add(patient);
+        //}
     }
 }

@@ -11,5 +11,6 @@ namespace Core.Interfaces
         void Update(MedicationPlanDetails details);
         void DeleteById(int id);
         void Delete(MedicationPlanDetails details);
+        void AddMedicationToList(int medicationPlanId, MedicationPlanDetails medication);
     }
 }

@@ -46,5 +46,13 @@ namespace Infrastructure.Services
             _unitOfWork.MedicationPlanRepository.Update(medicationPlan);
             _unitOfWork.Save();
         }
+
+        
+
+        public void AddMedicationPlan(int patientId, MedicationPlan medicationPlan)
+        {
+            medicationPlan.PatientId = patientId;
+            _unitOfWork.MedicationPlanRepository.Insert(medicationPlan);
+        }
     }
 }

@@ -10,8 +10,8 @@ namespace Infrastructure.DAL
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        private MedPlatformContext _context;
-        private DbSet<TEntity> _dbSet;
+        private readonly MedPlatformContext _context;
+        private readonly DbSet<TEntity> _dbSet;
 
         public GenericRepository(MedPlatformContext context )
         {

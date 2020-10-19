@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedPlatformAPI", "MedPlatformAPI\MedPlatformAPI.csproj", "{30AD782B-C01E-469A-8B16-036F981FE63B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{9DDED4E1-FBD6-48E0-AF4A-0D4C36A78834}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{9DDED4E1-FBD6-48E0-AF4A-0D4C36A78834}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{28F47413-F93A-4DCF-9589-58679EB83726}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{28F47413-F93A-4DCF-9589-58679EB83726}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

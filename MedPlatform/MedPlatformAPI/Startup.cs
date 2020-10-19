@@ -26,15 +26,16 @@ namespace MedPlatformAPI
             services.AddControllers();
             services.AddDbContext<MedPlatformContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("ApplicationDbContext")));
-        //    services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-        //    services.AddScoped<IUnitOfWork, UnitOfWork>();
-        //    services.AddScoped<IDoctorService, DoctorService>();
-        //    services.AddScoped<ICaregiverService, CaregiverService>();
-        //    services.AddScoped<IPatientService, PatientService>();
-        //    services.AddScoped<IMedicationService, MedicationService>();
-        //    services.AddScoped<IMedicationPlanService, MedicationPlanService>();
-        //    services.AddScoped<IMedicationPlanDetailsService, MedicationPlanDetailsService>();
-        //    services.AddScoped<IMedicalRecordService, MedicalRecordService>();
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDoctorService, DoctorService>();
+            services.AddScoped<ICaregiverService, CaregiverService>();
+            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IMedicationService, MedicationService>();
+            services.AddScoped<IMedicationPlanService, MedicationPlanService>();
+            services.AddScoped<IMedicationPlanDetailsService, MedicationPlanDetailsService>();
+            services.AddScoped<IMedicalRecordService, MedicalRecordService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +51,8 @@ namespace MedPlatformAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

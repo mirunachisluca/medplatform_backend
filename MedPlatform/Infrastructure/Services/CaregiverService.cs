@@ -28,7 +28,7 @@ namespace Infrastructure.Services
 
         public Caregiver GetById(int id)
         {
-            return _unitOfWork.CaregiverRepository.Get(caregiver => caregiver.CaregiverId==id, null, includeProperties : "PatientsList,PatientsList.MedicalRecordList,PatientsList.MedicationPlans,PatientsList.MedicationPlans.MedicationList").FirstOrDefault();
+            return _unitOfWork.CaregiverRepository.Get(caregiver => caregiver.CaregiverId==id, null, includeProperties : "PatientsList,PatientsList.MedicalRecordList,PatientsList.MedicationPlans,PatientsList.MedicationPlans.MedicationList,User").FirstOrDefault();
         }
 
         public IEnumerable<Patient> GetPatientsList(int id)
@@ -45,7 +45,7 @@ namespace Infrastructure.Services
 
         public IEnumerable<Caregiver> ListCaregivers()
         {
-            return _unitOfWork.CaregiverRepository.Get(includeProperties: "PatientsList,PatientsList.MedicalRecordList,PatientsList.MedicationPlans,PatientsList.MedicationPlans.MedicationList");
+            return _unitOfWork.CaregiverRepository.Get(includeProperties: "PatientsList,PatientsList.MedicalRecordList,PatientsList.MedicationPlans,PatientsList.MedicationPlans.MedicationList,User");
         }
 
         public void Update(Caregiver caregiver)
@@ -53,5 +53,11 @@ namespace Infrastructure.Services
             _unitOfWork.CaregiverRepository.Update(caregiver);
             _unitOfWork.Save();
         }
+
+        //public void AddPatientToCaregiver(int caregiverId, Patient patient)
+        //{
+        //    var caregiver = GetById(caregiverId);
+        //    caregiver.PatientsList.Add(patient);
+        //}
     }
 }

@@ -19,7 +19,6 @@ namespace Core.Interfaces
 
         IGenericRepository<MedicalRecord> MedicalRecordRepository { get; set; }
 
-        IGenericRepository<User> UserRepository { get; set; }
 
         void Save();
 

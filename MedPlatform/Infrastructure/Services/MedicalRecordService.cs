@@ -46,5 +46,11 @@ namespace Infrastructure.Services
             _unitOfWork.MedicalRecordRepository.Update(medicalRecord);
             _unitOfWork.Save();
         }
+
+        public void AddMedicalRecord(int patientId, MedicalRecord medicalRecord)
+        {
+            medicalRecord.PatientId = patientId;
+            _unitOfWork.MedicalRecordRepository.Insert(medicalRecord);
+        }
     }
 }

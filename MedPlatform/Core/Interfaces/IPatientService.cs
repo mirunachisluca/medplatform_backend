@@ -11,5 +11,6 @@ namespace Core.Interfaces
         void Update(Patient patient);
         void DeleteById(int id);
         void Delete(Patient patient);
+        IEnumerable<MedicationPlan> GetMedicationPlans(int id);
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MedPlatformAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class MedicationController : ControllerBase
     {
@@ -20,13 +20,13 @@ namespace MedPlatformAPI.Controllers
             _medicationService = medicationService;
         }
 
-        [HttpGet("get")]
+        [HttpGet("get/{id}")]
         public Medication GetById(int id)
         {
             return _medicationService.GetById(id);
         }
 
-        [HttpGet("Medications")]
+        [HttpGet("drugs")]
         public IEnumerable<Medication> GetMedication()
         {
             return _medicationService.ListMedication();
@@ -44,7 +44,7 @@ namespace MedPlatformAPI.Controllers
             _medicationService.Update(medication);
         }
 
-        [HttpPost("delete")]
+        [HttpPost("delete/{id}")]
         public void Delete(int id)
         {
             _medicationService.DeleteById(id);

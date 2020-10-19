@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MedPlatformAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CaregiverController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace MedPlatformAPI.Controllers
             _caregiverService = caregiverService;
         }
 
-        [HttpGet("get")]
+        [HttpGet("get/{id}")]
         public Caregiver GetById(int id)
         {
             return _caregiverService.GetById(id);
@@ -43,7 +43,7 @@ namespace MedPlatformAPI.Controllers
             _caregiverService.Update(caregiver);
         }
 
-        [HttpPost("delete")]
+        [HttpPost("delete/{id}")]
         public void Delete(int id)
         {
             _caregiverService.DeleteById(id);

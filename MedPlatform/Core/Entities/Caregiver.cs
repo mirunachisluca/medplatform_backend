@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Core.Entities
 {
@@ -13,6 +12,6 @@ namespace Core.Entities
         public string Address { get; set; }
         public List<Patient> PatientsList { get; set; }
         public User User { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

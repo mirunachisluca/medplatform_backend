@@ -28,7 +28,7 @@ namespace Infrastructure.Services
 
         public Patient GetById(int id)
         {
-            return _unitOfWork.PatientRepository.Get(patient => patient.PatientId == id, null, includeProperties: "MedicalRecordList,MedicationPlan,MedicationPlan.MedicationList").FirstOrDefault();
+            return _unitOfWork.PatientRepository.Get(patient => patient.PatientId == id, null, includeProperties: "MedicalRecordList,MedicationPlans,MedicationPlans.MedicationList,User").FirstOrDefault();
         }
 
         public void Insert(Patient patient)
@@ -39,13 +39,18 @@ namespace Infrastructure.Services
 
         public IEnumerable<Patient> ListPatients()
         {
-            return _unitOfWork.PatientRepository.Get(includeProperties: "MedicalRecordList,MedicationPlan,MedicationPlan.MedicationList");
+            return _unitOfWork.PatientRepository.Get(includeProperties: "MedicalRecordList,MedicationPlans,MedicationPlans.MedicationList,User");
         }
 
         public void Update(Patient patient)
         {
             _unitOfWork.PatientRepository.Update(patient);
             _unitOfWork.Save();
+        }
+
+        public IEnumerable<MedicationPlan> GetMedicationPlans(int id)
+        {
+            return GetById(id).MedicationPlans;
         }
     }
 }
