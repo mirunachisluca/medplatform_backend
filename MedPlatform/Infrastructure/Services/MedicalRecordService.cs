@@ -1,15 +1,19 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.Entities;
 using Core.Interfaces;
+using Core.Models;
 using System.Collections.Generic;
 
 namespace Infrastructure.Services
 {
     public class MedicalRecordService : IMedicalRecordService
     {
+        private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public MedicalRecordService(IUnitOfWork unitOfWork)
+        public MedicalRecordService(IMapper mapper, IUnitOfWork unitOfWork)
         {
+            _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
@@ -25,9 +29,15 @@ namespace Infrastructure.Services
             _unitOfWork.Save();
         }
 
-        public MedicalRecord GetById(int id)
+        public MedicalRecordModel GetById(int id)
         {
-            return _unitOfWork.MedicalRecordRepository.GetByID(id);
+            return _mapper.Map<MedicalRecordModel>(_unitOfWork.MedicalRecordRepository.GetByID(id));
+        }
+
+        public IEnumerable<MedicalRecordModel> GetByPatientId(int patientId)
+        {
+            var medicalRecord = _unitOfWork.MedicalRecordRepository.Get(record => record.PatientId == patientId);
+            return _mapper.Map<IEnumerable<MedicalRecordModel>>(medicalRecord);
         }
 
         public void Insert(MedicalRecord medicalRecord)
@@ -36,9 +46,9 @@ namespace Infrastructure.Services
             _unitOfWork.Save();
         }
 
-        public IEnumerable<MedicalRecord> ListMedicalRecords()
+        public IEnumerable<MedicalRecordModel> ListMedicalRecords()
         {
-            return _unitOfWork.MedicalRecordRepository.Get();
+            return _mapper.Map<IEnumerable<MedicalRecordModel>>(_unitOfWork.MedicalRecordRepository.Get());
         }
 
         public void Update(MedicalRecord medicalRecord)

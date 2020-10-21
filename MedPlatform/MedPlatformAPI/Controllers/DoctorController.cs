@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Interfaces;
+using Core.Models;
+using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace MedPlatformAPI.Controllers
 {
+    [Doctor]
     [Route("[controller]")]
     [ApiController]
     public class DoctorController : ControllerBase
@@ -20,15 +22,15 @@ namespace MedPlatformAPI.Controllers
         }
 
         [HttpGet("get/{id}")]
-        public Doctor GetById(int id)
+        public DoctorModel GetById(int id)
         {
             return _doctorService.GetById(id);
         }
 
         [HttpGet("doctors")]
-        public IEnumerable<Doctor> GetDoctors()
+        public IActionResult GetDoctors()
         {
-            return _doctorService.ListDoctors();
+            return Ok(_doctorService.ListDoctors());
         }
 
         [HttpPost("insert")]
@@ -49,10 +51,10 @@ namespace MedPlatformAPI.Controllers
             _doctorService.DeleteById(id);
         }
 
-        [HttpGet("patients")]
-        public IEnumerable<Patient> GetPatientsList(int id)
-        {
-            return _doctorService.GetPatientsList(id);
-        }
+        //[HttpGet("patients/{id}")]
+        //public IActionResult GetPatientsList(int id)
+        //{
+        //    return Ok(_doctorService.GetPatientsList(id));
+        //}
     }
 }

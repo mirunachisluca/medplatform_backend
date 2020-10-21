@@ -1,15 +1,19 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.Entities;
 using Core.Interfaces;
+using Core.Models;
 using System.Collections.Generic;
 
 namespace Infrastructure.Services
 {
     public class MedicationService : IMedicationService
     {
+        private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         
-        public MedicationService(IUnitOfWork unitOfWork)
+        public MedicationService(IMapper mapper, IUnitOfWork unitOfWork)
         {
+            _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
@@ -25,9 +29,11 @@ namespace Infrastructure.Services
             _unitOfWork.Save();
         }
 
-        public Medication GetById(int id)
+        public MedicationModel  GetById(int id)
         {
-            return _unitOfWork.MedicationRepository.GetByID(id);
+            var medication = _unitOfWork.MedicationRepository.GetByID(id);
+            var medicationModel = _mapper.Map<MedicationModel>(medication);
+            return medicationModel;
         }
 
         public void Insert(Medication medication)

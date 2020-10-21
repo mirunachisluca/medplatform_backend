@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Models;
+using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedPlatformAPI.Controllers
@@ -18,40 +21,54 @@ namespace MedPlatformAPI.Controllers
         }
 
         [HttpGet("get/{id}")]
-        public MedicationPlan GetById(int id)
+        public MedicationPlanModel GetById(int id)
         {
             return _medicationPlanService.GetById(id);
         }
 
+        //[Patient]
+        //[HttpGet("getByPatient")]
+        //public IActionResult GetByPatientId(int planId, int patientId)
+        //{
+        //    var medicationPlan = _medicationPlanService.GetByPatient(planId, patientId);
+        //    if (medicationPlan != null)
+        //        return Ok(medicationPlan);
+        //    else return Unauthorized();
+        //}
+
+        [Doctor]
+        [HttpGet("getForPatient/{id}")]
+        public IActionResult GetMedicationPlanForPatient(int patientId)
+        {
+            return Ok(_medicationPlanService.GetMedicationPlanForPatient(patientId));
+        }
+
         [HttpGet("plans")]
-        public IEnumerable<MedicationPlan> ListMedicationPlans()
+        public IEnumerable<MedicationPlanModel> ListMedicationPlans()
         {
             return _medicationPlanService.GetMedicationPlans();
         }
 
+        [Doctor]
         [HttpPost("insert")]
         public void InsertMedicationPlan(MedicationPlan medicationPlan)
         {
             _medicationPlanService.Insert(medicationPlan);
         }
 
+        [Doctor]
         [HttpPost("update")]
         public void UpdateMedicationPlan(MedicationPlan medicationPlan)
         {
             _medicationPlanService.Update(medicationPlan);
         }
 
+        [Doctor]
         [HttpPost("delete/{id}")]
         public void DeleteMedicationPlan(int id)
         {
             _medicationPlanService.DeleteById(id);
         }
-
-        //[HttpPost("addPlan")]
-        //public void AddMedicationPlan(int patientId, MedicationPlan medicationPlan)
-        //{
-        //    _medicationPlanService.AddMedicationPlan(patientId, medicationPlan);
-        //}
 
     }
 }

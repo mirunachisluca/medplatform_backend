@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
+using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Models;
+using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace MedPlatformAPI.Controllers
 {
+    [Doctor]
     [Route("[controller]")]
     [ApiController]
     public class MedicationController : ControllerBase
@@ -21,7 +25,7 @@ namespace MedPlatformAPI.Controllers
         }
 
         [HttpGet("get/{id}")]
-        public Medication GetById(int id)
+        public MedicationModel GetById(int id)
         {
             return _medicationService.GetById(id);
         }

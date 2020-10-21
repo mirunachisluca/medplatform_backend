@@ -6,7 +6,6 @@ namespace Core.Entities
     {
         public int UserId { get; set; }
         public string Username { get; set; }
-        [JsonIgnore]
         public string Password { get; set; }
         public Role Role { get; set; }
         public int RoleId { get; set; }

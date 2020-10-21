@@ -13,6 +13,6 @@ namespace Core.Entities
         public string Specialty { get; set; }
         public List<Patient> PatientsList { get; set; }
         public User User { get; set; }
-        public string UserId { get; set; }
+        public int UserId { get; set; }
     }
 }

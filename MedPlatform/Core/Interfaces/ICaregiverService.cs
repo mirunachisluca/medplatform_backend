@@ -13,6 +13,6 @@ namespace Core.Interfaces
         void Update(Caregiver caregiver);
         void DeleteById(int id);
         void Delete(Caregiver caregiver);
-        IEnumerable<Patient> GetPatientsList(int id);
+        //IEnumerable<Patient> GetPatientsList(int id);
     }
 }
