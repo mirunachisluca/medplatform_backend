@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using Core.Entities;
 using Core.Interfaces;
+using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace MedPlatformAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class PatientController : ControllerBase
     {
@@ -19,10 +20,45 @@ namespace MedPlatformAPI.Controllers
             _patientService = patientService;
         }
 
-        [HttpGet("get")]
-        public Patient GetById(int id)
+        [Authorize]
+        [HttpGet("get/{id}")]
+        public IActionResult GetById(int id)
         {
-            return _patientService.GetById(id);
+            return Ok(_patientService.GetById(id));
+        }
+
+        [Doctor]
+        [HttpGet("getByDoctor")]
+        public IActionResult GetByIdDoctor(int patientId, int doctorId)
+        {
+            var patient = _patientService.GetPatientForDoctor(patientId, doctorId);
+            if (patient != null)
+                return Ok(patient);
+            else return Unauthorized();
+        }
+
+        [Doctor]
+        [HttpGet("forDoctor/{doctorId}")]
+        public IActionResult GetPatientsForDoctor(int doctorId)
+        {
+            return Ok(_patientService.GetPatientsForDoctor(doctorId));
+        }
+
+        [Caregiver]
+        [HttpGet("getByCaregiver")]
+        public IActionResult GetbyIdCaregiver(int patientId, int caregiverId)
+        {
+            var patient = _patientService.GetPatientForCaregiver(patientId, caregiverId);
+            if (patient != null)
+                return Ok(patient);
+            else return Unauthorized();
+        }
+
+        [Caregiver]
+        [HttpGet("forCaregiver/{caregiverId}")]
+        public IActionResult GetPatientsForCaregiver(int caregiverId)
+        {
+            return Ok(_patientService.GetPatientsForCaregiver(caregiverId));
         }
 
         [HttpGet("patients")]
@@ -31,24 +67,26 @@ namespace MedPlatformAPI.Controllers
             return _patientService.ListPatients();
         }
 
+        [Doctor]
         [HttpPost("insert")]
         public void Insert(Patient patient)
         {
             _patientService.Insert(patient);
         }
 
+        [Doctor]
         [HttpPost("update")]
         public void Update(Patient patient)
         {
             _patientService.Update(patient);
         }
 
-        [HttpPost("delete")]
+        [Doctor]
+        [HttpPost("delete/{id}")]
         public void Delete(int id)
         {
             _patientService.DeleteById(id);
         }
-
 
     }
 }

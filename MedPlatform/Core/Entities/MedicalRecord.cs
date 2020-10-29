@@ -8,6 +8,7 @@ namespace Core.Entities
     {
         public int MedicalRecordId { get; set; }
         public string Description { get; set; }
+        public Patient Patient { get; set; }
         public int PatientId { get; set; }
     }
 }

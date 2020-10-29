@@ -1,5 +1,8 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.Entities;
 using Core.Interfaces;
+using Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,10 +10,12 @@ namespace Infrastructure.Services
 {
     public class DoctorService : IDoctorService
     {
+        private readonly IMapper _mapper;
         public readonly IUnitOfWork _unitOfWork;
 
-        public DoctorService(IUnitOfWork unitOfWork)
+        public DoctorService(IMapper mapper, IUnitOfWork unitOfWork)
         {
+            _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
         
@@ -26,12 +31,13 @@ namespace Infrastructure.Services
             _unitOfWork.Save();
         }
 
-        public Doctor GetById(int id)
+        public DoctorModel GetById(int id)
         {
-            return _unitOfWork.DoctorRepository.Get(doctor => doctor.DoctorId==id, null, includeProperties: "PatientsList,PatientsList.MedicalRecordList,PatientsList.MedicationPlans,PatientsList.MedicationPlans.MedicationList").FirstOrDefault();
+            var doctor = _unitOfWork.DoctorRepository.Get(doctor => doctor.DoctorId == id, null, includeProperties: "PatientsList,PatientsList.MedicalRecordList,PatientsList.MedicationPlans,PatientsList.MedicationPlans.MedicationList,PatientsList.MedicationPlans.MedicationList.Medication,User").FirstOrDefault();
+            return _mapper.Map<DoctorModel>(doctor);
         }
 
-        public IEnumerable<Patient> GetPatientsList(int id)
+        public IEnumerable<PatientModel> GetPatientsList(int id)
         {
             var doctor = GetById(id);
             return doctor.PatientsList;
@@ -39,14 +45,15 @@ namespace Infrastructure.Services
 
         public void Insert(Doctor doctor)
         {
+            doctor.Birthdate = doctor.Birthdate.Date;
             _unitOfWork.DoctorRepository.Insert(doctor);
             _unitOfWork.Save();
         }
 
-        public IEnumerable<Doctor> ListDoctors()
+        public IEnumerable<DoctorModel> ListDoctors()
         {
-            return _unitOfWork.DoctorRepository.Get(includeProperties:"PatientsList,PatientsList.MedicalRecordList,PatientsList.MedicationPlans,PatientsList.MedicationPlans.MedicationList");
-            
+            var doctors = _unitOfWork.DoctorRepository.Get(includeProperties:"PatientsList,PatientsList.MedicalRecordList,PatientsList.MedicationPlans,PatientsList.MedicationPlans.MedicationList,User");
+            return _mapper.Map<IEnumerable<DoctorModel>>(doctors);
         }
 
         public void Update(Doctor doctor)
@@ -54,5 +61,11 @@ namespace Infrastructure.Services
             _unitOfWork.DoctorRepository.Update(doctor);
             _unitOfWork.Save();
         }
+
+        //public void AddPatientToDoctor(int doctorId, Patient patient)
+        //{
+        //    var doctor = GetById(doctorId);
+        //    doctor.PatientsList.Add(patient);
+        //}
     }
 }

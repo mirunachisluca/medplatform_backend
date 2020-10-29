@@ -1,11 +1,12 @@
 ﻿using Core.Entities;
+using Core.Models;
 using System.Collections.Generic;
 
 namespace Core.Interfaces
 {
     public interface IMedicationService
     {
-        Medication GetById(int id);
+        MedicationModel GetById(int id);
         IEnumerable<Medication> ListMedication();
         void Insert(Medication medication);
         void Update(Medication medication);

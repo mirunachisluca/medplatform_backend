@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace MedPlatformAPI.Migrations
+namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(MedPlatformContext))]
-    [Migration("20201019070531_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201021102200_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -133,7 +133,7 @@ namespace MedPlatformAPI.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("PatientId")
+                    b.Property<int>("PatientId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("StartDate")
@@ -159,7 +159,7 @@ namespace MedPlatformAPI.Migrations
                     b.Property<int>("MedicationId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("MedicationPlanId")
+                    b.Property<int>("MedicationPlanId")
                         .HasColumnType("integer");
 
                     b.HasKey("MedicationPlanDetailsId");
@@ -184,17 +184,17 @@ namespace MedPlatformAPI.Migrations
                     b.Property<DateTime>("Birthdate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("CaregiverId")
+                    b.Property<int>("CaregiverId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("DoctorId")
+                    b.Property<int>("DoctorId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Gender")
                         .HasColumnType("text");
 
-                    b.Property<int>("Name")
-                        .HasColumnType("integer");
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -210,6 +210,21 @@ namespace MedPlatformAPI.Migrations
                     b.ToTable("Patients");
                 });
 
+            modelBuilder.Entity("Core.Entities.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("Core.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -220,10 +235,15 @@ namespace MedPlatformAPI.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Username")
                         .HasColumnType("text");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -248,7 +268,7 @@ namespace MedPlatformAPI.Migrations
 
             modelBuilder.Entity("Core.Entities.MedicalRecord", b =>
                 {
-                    b.HasOne("Core.Entities.Patient", null)
+                    b.HasOne("Core.Entities.Patient", "Patient")
                         .WithMany("MedicalRecordList")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -257,9 +277,11 @@ namespace MedPlatformAPI.Migrations
 
             modelBuilder.Entity("Core.Entities.MedicationPlan", b =>
                 {
-                    b.HasOne("Core.Entities.Patient", null)
+                    b.HasOne("Core.Entities.Patient", "Patient")
                         .WithMany("MedicationPlans")
-                        .HasForeignKey("PatientId");
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.Entities.MedicationPlanDetails", b =>
@@ -270,24 +292,39 @@ namespace MedPlatformAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.MedicationPlan", null)
+                    b.HasOne("Core.Entities.MedicationPlan", "MedicationPlan")
                         .WithMany("MedicationList")
-                        .HasForeignKey("MedicationPlanId");
+                        .HasForeignKey("MedicationPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.Entities.Patient", b =>
                 {
-                    b.HasOne("Core.Entities.Caregiver", null)
+                    b.HasOne("Core.Entities.Caregiver", "Caregiver")
                         .WithMany("PatientsList")
-                        .HasForeignKey("CaregiverId");
+                        .HasForeignKey("CaregiverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Core.Entities.Doctor", null)
+                    b.HasOne("Core.Entities.Doctor", "Doctor")
                         .WithMany("PatientsList")
-                        .HasForeignKey("DoctorId");
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Core.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Core.Entities.User", b =>
+                {
+                    b.HasOne("Core.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

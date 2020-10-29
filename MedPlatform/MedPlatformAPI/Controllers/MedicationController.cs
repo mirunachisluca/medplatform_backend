@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Models;
+using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace MedPlatformAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Doctor]
+    [Route("[controller]")]
     [ApiController]
     public class MedicationController : ControllerBase
     {
@@ -20,13 +24,13 @@ namespace MedPlatformAPI.Controllers
             _medicationService = medicationService;
         }
 
-        [HttpGet("get")]
-        public Medication GetById(int id)
+        [HttpGet("get/{id}")]
+        public MedicationModel GetById(int id)
         {
             return _medicationService.GetById(id);
         }
 
-        [HttpGet("Medications")]
+        [HttpGet("drugs")]
         public IEnumerable<Medication> GetMedication()
         {
             return _medicationService.ListMedication();
@@ -44,7 +48,7 @@ namespace MedPlatformAPI.Controllers
             _medicationService.Update(medication);
         }
 
-        [HttpPost("delete")]
+        [HttpPost("delete/{id}")]
         public void Delete(int id)
         {
             _medicationService.DeleteById(id);

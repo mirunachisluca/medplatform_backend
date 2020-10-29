@@ -12,5 +12,7 @@ namespace Core.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public List<MedicationPlanDetails> MedicationList { get; set; }
+        public Patient Patient { get; set; }
+        public int PatientId { get; set; }
     }
 }

@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace MedPlatformAPI.Migrations
+namespace Infrastructure.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,17 +24,37 @@ namespace MedPlatformAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    RoleId = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.RoleId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Username = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true)
+                    Password = table.Column<string>(nullable: true),
+                    RoleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_Users_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "RoleId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,13 +110,13 @@ namespace MedPlatformAPI.Migrations
                 {
                     PatientId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
                     Birthdate = table.Column<DateTime>(nullable: false),
                     Gender = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
                     UserId = table.Column<int>(nullable: false),
-                    CaregiverId = table.Column<int>(nullable: true),
-                    DoctorId = table.Column<int>(nullable: true)
+                    DoctorId = table.Column<int>(nullable: false),
+                    CaregiverId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,13 +126,13 @@ namespace MedPlatformAPI.Migrations
                         column: x => x.CaregiverId,
                         principalTable: "Caregivers",
                         principalColumn: "CaregiverId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Patients_Doctors_DoctorId",
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
                         principalColumn: "DoctorId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Patients_Users_UserId",
                         column: x => x.UserId,
@@ -149,7 +169,7 @@ namespace MedPlatformAPI.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
-                    PatientId = table.Column<int>(nullable: true)
+                    PatientId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -159,7 +179,7 @@ namespace MedPlatformAPI.Migrations
                         column: x => x.PatientId,
                         principalTable: "Patients",
                         principalColumn: "PatientId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,7 +190,7 @@ namespace MedPlatformAPI.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     IntakeInterval = table.Column<string>(nullable: true),
                     MedicationId = table.Column<int>(nullable: false),
-                    MedicationPlanId = table.Column<int>(nullable: true)
+                    MedicationPlanId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -186,7 +206,7 @@ namespace MedPlatformAPI.Migrations
                         column: x => x.MedicationPlanId,
                         principalTable: "MedicationPlans",
                         principalColumn: "MedicationPlanId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -233,6 +253,11 @@ namespace MedPlatformAPI.Migrations
                 name: "IX_Patients_UserId",
                 table: "Patients",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -260,6 +285,9 @@ namespace MedPlatformAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
         }
     }
 }

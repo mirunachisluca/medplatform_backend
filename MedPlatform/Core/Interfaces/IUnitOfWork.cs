@@ -18,8 +18,10 @@ namespace Core.Interfaces
         IGenericRepository<MedicationPlanDetails> MedicationPlanDetailsRepository { get; set; }
 
         IGenericRepository<MedicalRecord> MedicalRecordRepository { get; set; }
-
+        
         IGenericRepository<User> UserRepository { get; set; }
+
+        IGenericRepository<Role> RoleRepository { get; set; }
 
         void Save();
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text.Json.Serialization;
 
 namespace Core.Entities
 {
@@ -9,5 +7,7 @@ namespace Core.Entities
         public int UserId { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public Role Role { get; set; }
+        public int RoleId { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace Infrastructure.Data
         public DbSet<MedicationPlan> MedicationPlans { get; set; }
         public DbSet<MedicationPlanDetails> MedicationPlanDetails { get; set; }
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set;}
+        public DbSet<Role> Roles { get; set; }
     }
 }

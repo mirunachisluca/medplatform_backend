@@ -16,6 +16,7 @@ namespace Infrastructure.DAL
         private IGenericRepository<MedicationPlanDetails> _medicationPlanDetailsRepository;
         private IGenericRepository<MedicalRecord> _medicalRecordRepository;
         private IGenericRepository<User> _userRepository;
+        private IGenericRepository<Role> _roleRepository;
 
         
         public UnitOfWork(MedPlatformContext context)
@@ -36,8 +37,6 @@ namespace Infrastructure.DAL
             set
             {
                 _doctorRepository= value;
-
-
             }
         }
 
@@ -141,7 +140,7 @@ namespace Infrastructure.DAL
 
         public IGenericRepository<User> UserRepository
         {
-            get
+            get 
             {
                 if (_userRepository == null)
                 {
@@ -153,7 +152,22 @@ namespace Infrastructure.DAL
             {
                 _userRepository = value;
             }
+        }
 
+        public IGenericRepository<Role> RoleRepository
+        {
+            get 
+            {
+                if (_roleRepository==null)
+                {
+                    _roleRepository = new GenericRepository<Role>(_context);
+                }
+                return _roleRepository;
+            }
+            set
+            {
+                _roleRepository = value;
+            }
         }
 
         public void Save()

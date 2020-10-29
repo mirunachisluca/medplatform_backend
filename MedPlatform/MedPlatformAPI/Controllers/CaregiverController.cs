@@ -3,10 +3,12 @@ using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Infrastructure.Helpers;
+using Core.Models;
 
 namespace MedPlatformAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CaregiverController : ControllerBase
     {
@@ -19,40 +21,39 @@ namespace MedPlatformAPI.Controllers
             _caregiverService = caregiverService;
         }
 
-        [HttpGet("get")]
-        public Caregiver GetById(int id)
+        [Doctor]
+        [HttpGet("get/{id}")]
+        public CaregiverModel GetById(int id)
         {
             return _caregiverService.GetById(id);
         }
 
+        [Doctor]
         [HttpGet("caregivers")]
-        public IEnumerable<Caregiver> GetCaregivers()
+        public IEnumerable<CaregiverModel> GetCaregivers()
         {
             return _caregiverService.ListCaregivers();
         }
 
+        [Doctor]
         [HttpPost("insert")]
         public void Insert(Caregiver caregiver)
         {
             _caregiverService.Insert(caregiver);
         }
 
+        [Doctor]
         [HttpPost("update")]
         public void Update(Caregiver caregiver)
         {
             _caregiverService.Update(caregiver);
         }
 
-        [HttpPost("delete")]
+        [Doctor]
+        [HttpPost("delete/{id}")]
         public void Delete(int id)
         {
             _caregiverService.DeleteById(id);
-        }
-
-        [HttpGet("patients")]
-        public IEnumerable<Patient> GetPatientsList(int id)
-        {
-            return _caregiverService.GetPatientsList(id);
         }
     }
 }
