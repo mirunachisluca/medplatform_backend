@@ -7,7 +7,7 @@ namespace Core.Models
 {
     public class DoctorModel
     {
-        //public int DoctorId { get; set; }
+        public int DoctorId { get; set; }
         public string Name { get; set; }
         public DateTime Birthdate { get; set; }
         public string Gender { get; set; }

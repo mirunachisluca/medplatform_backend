@@ -32,31 +32,30 @@ namespace Infrastructure.Services
 
         public PatientModel GetById(int id)
         {
-            var patient = _unitOfWork.PatientRepository.Get(patient => patient.PatientId == id, null, includeProperties: "MedicalRecordList,MedicationPlans,MedicationPlans.MedicationList,User").FirstOrDefault();
+            var patient = _unitOfWork.PatientRepository.Get(patient => patient.PatientId == id, null, includeProperties: "MedicalRecordList,MedicationPlans,MedicationPlans.MedicationList,MedicationPlans.MedicationList.Medication,User").FirstOrDefault();
             return _mapper.Map<PatientModel>(patient);
         }
 
         public PatientModel GetPatientForDoctor(int patientId, int doctorId)
         {
-            var patient = _unitOfWork.PatientRepository.Get(p => p.PatientId == patientId && p.DoctorId == doctorId).FirstOrDefault();
+            var patient = _unitOfWork.PatientRepository.Get(p => p.PatientId == patientId && p.DoctorId == doctorId, includeProperties: "MedicalRecordList,MedicationPlans,MedicationPlans.MedicationList,MedicationPlans.MedicationList.Medication,User").FirstOrDefault();
             return _mapper.Map<PatientModel>(patient);
         }
 
         public PatientModel GetPatientForCaregiver(int patientId, int caregiverId)
         {
-            var patient = _unitOfWork.PatientRepository.Get(p => p.PatientId == patientId && p.CaregiverId == caregiverId).FirstOrDefault();
+            var patient = _unitOfWork.PatientRepository.Get(p => p.PatientId == patientId && p.CaregiverId == caregiverId, includeProperties: "MedicalRecordList,MedicationPlans,MedicationPlans.MedicationList,MedicationPlans.MedicationList.Medication,User").FirstOrDefault();
             return _mapper.Map<PatientModel>(patient);
-
         }
 
         public IEnumerable<PatientModel> GetPatientsForDoctor(int doctorId)
         {
-            return _mapper.Map<IEnumerable<PatientModel>>(_unitOfWork.PatientRepository.Get(p => p.DoctorId == doctorId));
+            return _mapper.Map<IEnumerable<PatientModel>>(_unitOfWork.PatientRepository.Get(p => p.DoctorId == doctorId, includeProperties: "MedicalRecordList,MedicationPlans,MedicationPlans.MedicationList,MedicationPlans.MedicationList.Medication,User"));
         }
 
         public IEnumerable<PatientModel> GetPatientsForCaregiver(int caregiverId)
         {
-            return _mapper.Map<IEnumerable<PatientModel>>(_unitOfWork.PatientRepository.Get(p => p.CaregiverId == caregiverId));
+            return _mapper.Map<IEnumerable<PatientModel>>(_unitOfWork.PatientRepository.Get(p => p.CaregiverId == caregiverId, includeProperties: "MedicalRecordList,MedicationPlans,MedicationPlans.MedicationList,MedicationPlans.MedicationList.Medication,User"));
         }
 
         public void Insert(Patient patient)

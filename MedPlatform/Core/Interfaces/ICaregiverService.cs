@@ -1,14 +1,13 @@
 ﻿using Core.Entities;
-using System;
+using Core.Models;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Core.Interfaces
 {
     public interface ICaregiverService
     {
-        Caregiver GetById(int id);
-        IEnumerable<Caregiver> ListCaregivers();
+        CaregiverModel GetById(int id);
+        IEnumerable<CaregiverModel> ListCaregivers();
         void Insert(Caregiver caregiver);
         void Update(Caregiver caregiver);
         void DeleteById(int id);

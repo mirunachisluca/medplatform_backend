@@ -4,6 +4,7 @@ using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Infrastructure.Helpers;
+using Core.Models;
 
 namespace MedPlatformAPI.Controllers
 {
@@ -22,14 +23,14 @@ namespace MedPlatformAPI.Controllers
 
         [Doctor]
         [HttpGet("get/{id}")]
-        public Caregiver GetById(int id)
+        public CaregiverModel GetById(int id)
         {
             return _caregiverService.GetById(id);
         }
 
         [Doctor]
         [HttpGet("caregivers")]
-        public IEnumerable<Caregiver> GetCaregivers()
+        public IEnumerable<CaregiverModel> GetCaregivers()
         {
             return _caregiverService.ListCaregivers();
         }
@@ -54,12 +55,5 @@ namespace MedPlatformAPI.Controllers
         {
             _caregiverService.DeleteById(id);
         }
-
-        //[Caregiver,Doctor]
-        //[HttpGet("patients")]
-        //public IEnumerable<Patient> GetPatientsList(int id)
-        //{
-        //    return _caregiverService.GetPatientsList(id);
-        //}
     }
 }

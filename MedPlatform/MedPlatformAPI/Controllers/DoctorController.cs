@@ -51,10 +51,5 @@ namespace MedPlatformAPI.Controllers
             _doctorService.DeleteById(id);
         }
 
-        //[HttpGet("patients/{id}")]
-        //public IActionResult GetPatientsList(int id)
-        //{
-        //    return Ok(_doctorService.GetPatientsList(id));
-        //}
     }
 }

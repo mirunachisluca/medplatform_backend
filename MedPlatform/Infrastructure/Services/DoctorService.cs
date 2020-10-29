@@ -2,6 +2,7 @@
 using Core.Entities;
 using Core.Interfaces;
 using Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -44,6 +45,7 @@ namespace Infrastructure.Services
 
         public void Insert(Doctor doctor)
         {
+            doctor.Birthdate = doctor.Birthdate.Date;
             _unitOfWork.DoctorRepository.Insert(doctor);
             _unitOfWork.Save();
         }

@@ -13,6 +13,13 @@ using System.Text;
 
 namespace Infrastructure.Services
 {
+    enum Roles : int
+    {
+        Doctor = 1,
+        Caregiver = 2,
+        Patient = 3
+    }
+
     public class UserService : IUserService
     {
         private readonly AppSettings _appSettings;
@@ -24,7 +31,7 @@ namespace Infrastructure.Services
             _unitOfWork = unitOfWork;
         }
 
-        public AuthenticateResponse Authenticate(AuthenticateRequest model)
+        public string Authenticate(AuthenticateRequest model)
         {
             var user = _unitOfWork.UserRepository.Get(user => user.Username == model.Username && user.Password == model.Password).FirstOrDefault();
 
@@ -32,7 +39,7 @@ namespace Infrastructure.Services
 
             var token = generateJwtToken(user);
 
-            return new AuthenticateResponse(user, token);
+            return token;
         }
 
         public IEnumerable<User> GetAll()
@@ -47,16 +54,31 @@ namespace Infrastructure.Services
 
         private string generateJwtToken(User user)
         {
+            var id = 0;
+            if (user.RoleId == (int) Roles.Doctor)
+            {
+                id = _unitOfWork.DoctorRepository.Get(d => d.UserId == user.UserId).FirstOrDefault().DoctorId;
+            }
+            else if (user.RoleId == (int) Roles.Caregiver)
+            {
+                id = _unitOfWork.CaregiverRepository.Get(c => c.UserId == user.UserId).FirstOrDefault().CaregiverId;
+            }
+            else if (user.RoleId == (int) Roles.Patient)
+            {
+                id = _unitOfWork.PatientRepository.Get(p => p.UserId == user.UserId).FirstOrDefault().PatientId;
+            }       
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("UserId", user.UserId.ToString()), new Claim("RoleId", user.RoleId.ToString()) }),
+                Subject = new ClaimsIdentity(new[] { new Claim("UserId", user.UserId.ToString()), new Claim("RoleId", user.RoleId.ToString()), new Claim("Id", id.ToString()), new Claim("Username", user.Username.ToString()) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
     }
 }

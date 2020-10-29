@@ -38,8 +38,8 @@ namespace MedPlatformAPI.Controllers
         }
 
         [Doctor]
-        [HttpGet("forDoctor/{id}")]
-        public IActionResult GetPatientsForDoctorr(int doctorId)
+        [HttpGet("forDoctor/{doctorId}")]
+        public IActionResult GetPatientsForDoctor(int doctorId)
         {
             return Ok(_patientService.GetPatientsForDoctor(doctorId));
         }
@@ -55,7 +55,7 @@ namespace MedPlatformAPI.Controllers
         }
 
         [Caregiver]
-        [HttpGet("forCaregiver/{id}")]
+        [HttpGet("forCaregiver/{caregiverId}")]
         public IActionResult GetPatientsForCaregiver(int caregiverId)
         {
             return Ok(_patientService.GetPatientsForCaregiver(caregiverId));

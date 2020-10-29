@@ -1,6 +1,5 @@
 ﻿using Core.Interfaces;
 using Core.Models;
-using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedPlatformAPI.Controllers
@@ -28,12 +27,5 @@ namespace MedPlatformAPI.Controllers
             return Ok(response);
         }
 
-        [Authorize]
-        [HttpGet("users")]
-        public IActionResult GetAll()
-        {
-            var users = _userService.GetAll();
-            return Ok(users);
-        }
     }
 }
