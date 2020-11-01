@@ -26,8 +26,8 @@ namespace MedPlatformAPI.Controllers
             return _medicationPlanService.GetById(id);
         }
 
-        [Doctor]
-        [HttpGet("getForPatient/{id}")]
+        [Authorize]
+        [HttpGet("getForPatient/{patientId}")]
         public IActionResult GetMedicationPlanForPatient(int patientId)
         {
             return Ok(_medicationPlanService.GetMedicationPlanForPatient(patientId));
