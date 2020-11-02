@@ -1,0 +1,16 @@
+variables:
+  NUGET_PATH: 'C:\Program Files\NuGet\nuget.exe'
+  MSBUILD_PATH: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe'
+
+stages:
+  - build
+
+build_job:
+  stage: build
+  only:
+    - branches
+  script:
+    - '& "$env:NUGET_PATH" restore'
+    - '& "$env:MSBUILD_PATH" /p:Configuration=Release /clp:ErrorsOnly'
+  artifacts:
+    expire_in: 2 days
