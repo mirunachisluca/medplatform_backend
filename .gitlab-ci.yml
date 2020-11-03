@@ -1,6 +1,11 @@
 stages:
-    - deploy
     - build
+    - deploy
+    
+before_script:
+    - echo xd
+    - "cd MedPlatform"
+    - "dotnet restore"
     
 build:
     stage: build
