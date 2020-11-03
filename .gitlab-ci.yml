@@ -1,5 +1,11 @@
 stages:
     - deploy
+    - build
+    
+build:
+    stage: build
+    script:
+        - "dotnet build"
     
 variables:
     APP_NAME: medplatformapi
