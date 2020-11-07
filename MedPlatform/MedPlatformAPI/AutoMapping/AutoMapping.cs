@@ -17,12 +17,6 @@ namespace MedPlatformAPI.AutoMapping
             CreateMap<MedicationPlan, MedicationPlanModel>();
             CreateMap<MedicationPlanDetails, MedicationPlanDetailsModel>();
             CreateMap<User, UserModel>();
-            //CreateMap<IEnumerable<Doctor>, IEnumerable<DoctorModel>>();
-            //CreateMap<IEnumerable<Caregiver>, IEnumerable<CaregiverModel>>();
-            //CreateMap<IEnumerable<Patient>, IEnumerable<PatientModel>>();
-            //CreateMap<IEnumerable<MedicationPlanDetails>, IEnumerable<MedicationPlanDetailsModel>>();
-            //CreateMap<IEnumerable<MedicationPlan>, IEnumerable<MedicationPlanModel>>();
-            //CreateMap<IEnumerable<Medication>, IEnumerable<Medication>>();
 
         }
         

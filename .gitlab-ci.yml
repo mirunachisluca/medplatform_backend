@@ -1,9 +1,20 @@
 stages:
+    - build
     - deploy
     
 variables:
     APP_NAME: medplatformapi
-    
+
+before_script:
+    - echo xd
+    - "cd MedPlatform"
+    - "dotnet restore"    
+
+build:
+    stage: build
+    script:
+        - "dotnet build"
+ 
 deploy:
     image: docker:latest
     services:
