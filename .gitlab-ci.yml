@@ -9,11 +9,7 @@ before_script:
     - "cd MedPlatform"
     - "dotnet restore"    
 
-build:
-    stage: build
-    script:
-        - "dotnet build"
- 
+
 deploy:
     image: docker:latest
     services:
