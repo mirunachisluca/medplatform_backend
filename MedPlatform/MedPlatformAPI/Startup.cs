@@ -3,6 +3,7 @@ using Core.Interfaces;
 using Infrastructure.DAL;
 using Infrastructure.Data;
 using Infrastructure.Helpers;
+using Infrastructure.Hubs;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RabbitMQ.Client;
+using System;
 
 namespace MedPlatformAPI
 {
@@ -42,6 +45,11 @@ namespace MedPlatformAPI
             services.AddScoped<IMedicationPlanDetailsService, MedicationPlanDetailsService>();
             services.AddScoped<IMedicalRecordService, MedicalRecordService>();
             services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IActivityService, ActivityService>();
+
+            services.AddSignalR();
+            services.AddHostedService<ActivityService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,9 +66,10 @@ namespace MedPlatformAPI
             app.UseRouting();
 
             app.UseCors(x => x
-                .AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader());
+                .AllowAnyHeader()
+                .WithOrigins("https://medplatformapp.herokuapp.com")
+                .AllowCredentials());
 
             app.UseAuthorization();
 
@@ -69,9 +78,10 @@ namespace MedPlatformAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ActivityMessageHub>("/hubs/activity");
             });
 
-            
+
         }
     }
 }
