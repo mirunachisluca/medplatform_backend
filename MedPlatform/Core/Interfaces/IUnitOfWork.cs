@@ -23,6 +23,8 @@ namespace Core.Interfaces
 
         IGenericRepository<Role> RoleRepository { get; set; }
 
+        IGenericRepository<Activity> ActivityRepository { get; set; }
+
         void Save();
 
         new void Dispose();
