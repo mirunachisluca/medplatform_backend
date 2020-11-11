@@ -28,6 +28,6 @@ deploy:
         - docker tag $CI_REGISTRY_IMAGE:latest $HEROKU_REGISTRY_IMAGE:latest
         - docker login --username=_ --password=$HEROKU_API_KEY $HEROKU_REGISTRY
         - docker push $HEROKU_REGISTRY_IMAGE:latest
-        - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:relese web --app $APP_NAME
+        - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $APP_NAME
     
         
