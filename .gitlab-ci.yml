@@ -12,10 +12,9 @@ variables:
 build:
     stage: build
     before_script:
-    - "cd MedPlatform"
-    - "dotnet restore" 
+    - "cd MedPlatform/XUnitTestProject" 
     script:
-        - "dotnet build"
+        - "dotnet test"
 test:
     stage: test
     before_script:
