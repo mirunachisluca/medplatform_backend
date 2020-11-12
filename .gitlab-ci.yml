@@ -18,7 +18,7 @@ build:
         - "dotnet build"
 test:
     stage: test
-     before_script:
+    before_script:
     - "cd MedPlatform"
     - "dotnet restore" 
     script:
