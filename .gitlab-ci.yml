@@ -12,16 +12,16 @@ variables:
 build:
     stage: build
     before_script:
-    - "cd MedPlatform/XUnitTestProject" 
-    script:
-        - "dotnet test"
-test:
-    stage: test
-    before_script:
     - "cd MedPlatform"
     - "dotnet restore" 
     script:
         - "dotnet build"
+test:
+    stage: test
+    before_script:
+    - "cd MedPlatform/XUnitTestProject"
+    script:
+        - "dotnet test"
 deploy:
     image: docker:latest
     services:
