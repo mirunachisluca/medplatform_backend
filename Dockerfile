@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["MedPlatformAPI/MedPlatformAPI.csproj", "MedPlatformAPI/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
-COPY ["Core/Core.csproj", "Core/"]
-RUN dotnet restore "MedPlatformAPI/MedPlatformAPI.csproj"
+COPY ["MedPlatform/MedPlatformAPI/MedPlatformAPI.csproj", "MedPlatform/MedPlatformAPI/"]
+COPY ["MedPlatform/Infrastructure/Infrastructure.csproj", "MedPlatform/Infrastructure/"]
+COPY ["MedPlatform/Core/Core.csproj", "MedPlatform/Core/"]
+RUN dotnet restore "MedPlatform/MedPlatformAPI/MedPlatformAPI.csproj"
 COPY . .
 WORKDIR "/src/MedPlatformAPI"
 RUN dotnet build "MedPlatformAPI.csproj" -c Release -o /app/build
