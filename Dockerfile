@@ -12,7 +12,7 @@ COPY ["MedPlatform/Infrastructure/Infrastructure.csproj", "MedPlatform/Infrastru
 COPY ["MedPlatform/Core/Core.csproj", "MedPlatform/Core/"]
 RUN dotnet restore "MedPlatform/MedPlatformAPI/MedPlatformAPI.csproj"
 COPY . .
-WORKDIR "/src/MedPlatformAPI"
+WORKDIR "/src/MedPlatform/MedPlatformAPI"
 RUN dotnet build "MedPlatformAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
