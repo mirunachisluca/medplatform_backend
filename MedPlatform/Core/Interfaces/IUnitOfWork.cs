@@ -25,6 +25,8 @@ namespace Core.Interfaces
 
         IGenericRepository<Activity> ActivityRepository { get; set; }
 
+        IGenericRepository<MedicationStatus> MedicationStatusRepository { get; set; }
+
         void Save();
 
         new void Dispose();

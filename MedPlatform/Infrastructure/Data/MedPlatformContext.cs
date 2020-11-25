@@ -19,5 +19,6 @@ namespace Infrastructure.Data
         public DbSet<User> Users { get; set;}
         public DbSet<Role> Roles { get; set; }
         public DbSet<Activity> Activities { get; set; }
+        public DbSet<MedicationStatus> MedicationStatuses { get; set; }
     }
 }

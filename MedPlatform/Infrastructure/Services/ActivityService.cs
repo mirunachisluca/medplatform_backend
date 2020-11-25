@@ -19,9 +19,9 @@ namespace Infrastructure.Services
         private IConnection _connection;
         private IModel _channel;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly IHubContext<ActivityMessageHub, IActivityMessage> _messageHub;
+        private readonly IHubContext<ActivityMessageHub, IActivityMessageHub> _messageHub;
 
-        public ActivityService(IServiceScopeFactory serviceScopeFactory, IHubContext<ActivityMessageHub, IActivityMessage> messageHub)
+        public ActivityService(IServiceScopeFactory serviceScopeFactory, IHubContext<ActivityMessageHub, IActivityMessageHub> messageHub)
         {
             _serviceScopeFactory = serviceScopeFactory;
             _messageHub = messageHub;
@@ -61,7 +61,7 @@ namespace Infrastructure.Services
             var consumer = new AsyncEventingBasicConsumer(_channel);
             consumer.Received += async (ch, ea) =>
             {
-                var content = Encoding.UTF8.GetString(ea.Body.ToArray());
+               var content = Encoding.UTF8.GetString(ea.Body.ToArray());
                var activity = JsonConvert.DeserializeObject<Activity>(content);
 
                 using (var scope = _serviceScopeFactory.CreateScope())

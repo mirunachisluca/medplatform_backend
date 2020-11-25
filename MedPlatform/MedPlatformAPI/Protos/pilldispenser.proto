@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "MedPlatformAPI";
+
+package pilldispenser;
+
+service PillDispenser{
+	rpc GetMedicationPlan (MedicationPlanRequest) returns (MedicationPlanReply) {}
+	rpc MedicationTaken (MedicationTakenRequest) returns (MedicationTakenReply) {}
+	rpc MedicationMissed (MedicationMissedRequest) returns (MedicationMissedReply) {}
+}
+
+message MedicationPlanRequest {
+	int32 PatientId = 1;
+}
+ 
+message MedicationPlanReply {
+    repeated PlanDetails Medication = 1;
+}
+ 
+message PlanDetails {
+	int32 MedicationId = 1;	
+	string Name = 2;
+	string IntakeIntervalStart = 3;
+	string IntakeIntervalEnd = 4;
+}
+
+message MedicationTakenRequest{
+	int32 MedicationId = 1;
+	string DateTime = 2;
+	int32 PatientId = 3;
+}
+
+message MedicationTakenReply{
+	string Message = 1;
+}
+
+message MedicationMissedRequest{
+	int32 MedicationId = 1;
+	string DateTime = 2;
+	int32 PatientId=3;
+}
+
+message MedicationMissedReply{
+	string Message = 1;
+}

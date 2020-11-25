@@ -5,6 +5,7 @@ using Infrastructure.Data;
 using Infrastructure.Helpers;
 using Infrastructure.Hubs;
 using Infrastructure.Services;
+using MedPlatformAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -45,10 +46,21 @@ namespace MedPlatformAPI
             services.AddScoped<IMedicationPlanDetailsService, MedicationPlanDetailsService>();
             services.AddScoped<IMedicalRecordService, MedicalRecordService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMedicationStatusService, MedicationStatusService>();
             //services.AddScoped<IActivityService, ActivityService>();
 
             services.AddSignalR();
             services.AddHostedService<ActivityService>();
+
+            services.AddGrpc();
+
+            services.AddCors(o => o.AddPolicy("AllowAll", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding");
+            }));
 
         }
 
@@ -65,10 +77,12 @@ namespace MedPlatformAPI
 
             app.UseRouting();
 
+            app.UseGrpcWeb();
+
             app.UseCors(x => x
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .WithOrigins("https://medplatformapp.herokuapp.com")
+                .WithOrigins("http://localhost:3000", "https://medplatformapp.herokuapp.com")
                 .AllowCredentials());
 
             app.UseAuthorization();
@@ -79,6 +93,8 @@ namespace MedPlatformAPI
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<ActivityMessageHub>("/hubs/activity");
+                endpoints.MapGrpcService<PillDispenserService>().EnableGrpcWeb()
+                                                          .RequireCors("AllowAll");
             });
 
 

@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Hubs
 {
-    public interface IActivityMessage
+    public interface IActivityMessageHub
     {
         Task SendMessage(ActivityMessage message);
     }
